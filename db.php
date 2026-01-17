@@ -1,15 +1,29 @@
 
-<?php
-$host = "localhost";
-$dbname = "CustomerSupportSystem";
-$username = "root";
-$password = "";
+<?php 
+
+$server = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'CustomerSupportSystem';
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Database connected successfully";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false
+    ];
+
+    $pdo = new PDO(
+        "mysql:host=$server;dbname=$database;charset=utf8mb4",
+        $username,
+        $password,
+        $options
+    );
+
+    // echo "<h3 style='color:green;'>Welcome to Student Database!</h3>";
+
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    die("Connection Failed: " . $e->getMessage());
 }
+
 ?>

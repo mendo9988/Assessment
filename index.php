@@ -1,12 +1,11 @@
-<!-- Customer Support ticketing system.
-generates a ticket.  customer’s contact information, issue description, and timestamps. -->
 <?php
 require_once "db.php";
 
 $sql = "Select * from ticket";
-$stmt = $conn->prepare($sql);
+$stmt = $pdo->prepare($sql);
 $stmt->execute();
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -34,14 +33,18 @@ $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tr>
             <?php foreach ($data as $rows): ?>
             <tr>
-                <th><?= htmlspecialchars($rows['TicketID']) ?></th>
-                <th><?= htmlspecialchars($rows['CustomerID']) ?></th>
-                <th><?= htmlspecialchars($rows['Subject']) ?></th>
-                <th><?= htmlspecialchars($rows['Description']) ?></th>
-                <th><?= htmlspecialchars($rows['Status']) ?></th>
-                <th><?= htmlspecialchars($rows['Priority']) ?></th>
-                <th><?= htmlspecialchars($rows['AssignedTo']) ?></th>
-                <th><?= $rows['CreatedAt']? date('d-m-Y', strtotime($row['CreatedAt'])) : 'N/A' ?></th>
+                <td><?= htmlspecialchars($rows['TicketId']) ?></td>
+                <td><?= htmlspecialchars($rows['CustomerID']) ?></td>
+                <td><?= htmlspecialchars($rows['Subject']) ?></td>
+                <td><?= htmlspecialchars($rows['Description']) ?></td>
+                <td><?= htmlspecialchars($rows['Status']) ?></td>
+                <td><?= htmlspecialchars($rows['Priority']) ?></td>
+                <td><?= htmlspecialchars($rows['AssignedTo']) ?></td>
+                <td><?= $rows['CreatedAt']? date('d-m-Y', strtotime($rows['CreatedAt'])) : 'N/A' ?></td>
+                <td><a href="edit.php?id=<?= $rows['TicketId'] ?>">Edit</a> |
+                <a href="delete.php?id=<?= $rows['TicketId'] ?>"
+                onclick="return confirm('Are you sure?')">Delete</a>
+</td>
             </tr>
             <?php endforeach; ?>
         </table>
